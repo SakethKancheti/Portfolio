@@ -219,7 +219,7 @@ section p {
   margin-bottom: 0;
 }
 
-/* Project cards */
+/* Project flip cards */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -227,29 +227,92 @@ section p {
   margin-top: 1.5rem;
 }
 
-.project-card {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
+.project-flip-card {
+  perspective: 1000px;
+  min-height: 200px;
+  cursor: pointer;
+  outline: none;
+}
+
+.project-flip-card:focus-visible .project-flip-inner {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.project-flip-inner {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
   border-radius: var(--radius);
+}
+
+.project-flip-card.flipped .project-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.project-flip-front,
+.project-flip-back {
+  position: absolute;
+  width: 100%;
+  min-height: 200px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
   padding: 1.5rem;
-  transition: border-color var(--transition), transform var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: border-color var(--transition);
 }
 
-.project-card:hover {
+.project-flip-card:hover .project-flip-front,
+.project-flip-card:hover .project-flip-back {
   border-color: rgba(224, 124, 76, 0.3);
-  transform: translateY(-2px);
 }
 
-.project-card h3 {
-  font-size: 1.1rem;
+.project-flip-front {
+  background: var(--bg-soft);
+}
+
+.project-flip-back {
+  background: var(--bg-soft);
+  transform: rotateY(180deg);
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.project-flip-front h3 {
+  font-size: 1.15rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
   color: var(--text);
+  margin-bottom: 0.5rem;
 }
 
-.project-card p {
+.flip-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.project-flip-back .project-what {
   font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  line-height: 1.55;
+}
+
+.project-flip-back .project-tools {
+  font-size: 0.85rem;
+  color: var(--accent);
   margin: 0;
+  line-height: 1.5;
+}
+
+.project-flip-back .project-tools strong {
+  color: var(--text);
+  font-weight: 600;
 }
 
 /* Contact section */
